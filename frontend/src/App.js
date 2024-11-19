@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const apiUrl = "http://localhost:5000/api/todos";
+const apiUrl = "https://b4d2-186-18-66-226.ngrok-free.app/api/todos";
 
 export default function App() {
   const [todos, setTodos] = useState([]);
@@ -9,7 +9,11 @@ export default function App() {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(apiUrl, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+        },
+      });
       setTodos(response.data);
     } catch (error) {
       console.error("Error fetching todos:", error);
@@ -41,7 +45,6 @@ export default function App() {
         `${apiUrl}/${id}`,
         updatedTodo
       );
-
       setTodos(todos.map((todo) => (todo._id === id ? response.data : todo)));
     } catch (error) {
       console.error("Error updating todo:", error);
